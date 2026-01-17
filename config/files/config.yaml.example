@@ -1,0 +1,48 @@
+Server:
+  Port: 8900
+  ReadTimeout: 15s
+  WriteTimeout: 15s
+
+API:
+  BasePath: ""
+  APITimeout: 15s
+  EnableSwagger: true
+
+Database:
+  SlaveDSN: "postgres://[postgres]:[password]@localhost:5433/ums?sslmode=disable"
+  MasterDSN: "postgres://[postgres]:[password]@localhost:5433/ums?sslmode=disable"
+  RetryInterval: 10
+  MaxIdleConn: 10
+  MaxConn: 10
+  ConnMaxLifetime: 10s
+
+Kafka:
+  Producer:
+    Brokers:
+      - localhost:9092
+    MaxAttempt: 5
+    Idempotent: true
+  Topics:
+    MasterDataUser:
+      Value: "ums.masterdata-users"
+      ErrorHandler: "Phase1"
+      WithBackOff: true
+
+JWT:
+  Secret: "^87adb2&91hnGaWd7"
+
+
+Encryption:
+  Key : "key"
+
+BlockchainConfig:
+  GanacheURL: "http://127.0.0.1:7545"
+  ContractAddress: "contract address"
+
+Cors:
+  AllowOrigins: "*"
+  AllowMethods: "GET,POST,PUT,DELETE,OPTIONS"
+  AllowHeaders: "Content-Type,Authorization"
+  AllowCredentials: false
+  ExposeHeaders: "X-Custom-Header"
+  MaxAge: 3600
