@@ -56,11 +56,11 @@ func (api *API) RegisterRoute() *router.FastRouter {
 	myRouter.GET("/health", api.Ping, router.MustAuthorized(false))
 	myRouter.Group("v1", func(v1 *router.FastRouter) {
 		v1.Group("/users", func(user *router.FastRouter) {
-			user.GET("", api.GetAllUsers)
-			user.POST("", api.CreateUser)
-			user.PATCH("", api.UpdateUser)
-			user.GET("/:userId", api.GetUser)
-			user.DELETE("/:userId", api.DeleteUser)
+			user.GET("", api.GetAllUsers, router.MustAuthorized(false))
+			user.POST("", api.CreateUser, router.MustAuthorized(false))
+			user.PATCH("", api.UpdateUser, router.MustAuthorized(false))
+			user.GET("/:userId", api.GetUser, router.MustAuthorized(false))
+			user.DELETE("/:userId", api.DeleteUser, router.MustAuthorized(false))
 		})
 	})
 

@@ -12,8 +12,8 @@ run-api: dependency swag-init
 
 migrate-up:
 	@echo ">> Running Migrate Up"
-	@migrate -path db/migrations -database "postgres://postgres:1235813@localhost:5433/users?sslmode=disable" up
+	@migrate -path db/migrations -database "postgres://hanifabyana:@localhost:5432/garnet?sslmode=disable" up
 
 migrate-down:
 	@echo ">> Running Migrate down"
-	@migrate -path db/migrations -database "postgres://postgres:1235813@localhost:5433/users?sslmode=disable" down
+	@migrate -path db/migrations -database "postgres://hanifabyana:@localhost:5432/garnet?sslmode=disable" down

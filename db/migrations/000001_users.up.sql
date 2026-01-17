@@ -1,0 +1,7 @@
+CREATE TABLE "users" (
+    id uuid NOT NULL PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP(6) WITH TIME ZONE NOT NULL DEFAULT now(),
+    updated_at TIMESTAMP(6) WITH TIME ZONE NOT NULL DEFAULT now(),
+    is_deleted BOOL NOT NULL DEFAULT FALSE
+);

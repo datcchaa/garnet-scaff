@@ -199,13 +199,13 @@ func (u *UserRepository) GetAll(ctx context.Context) ([]*model.User, error) {
 	)
 
 	selectQuery := "users.id, users.username, users.created_at, users.updated_at"
-	whereQuery := " AND is_deleted = FALSE"
+	whereQuery := " AND users.is_deleted = FALSE"
 
 	query := fmt.Sprintf(selectUser, selectQuery, "", whereQuery)
 	if sqlTrx != nil {
 		err = sqlTrx.SelectContext(ctx, &users, query)
 	} else {
-		err = u.db.GetMaster().GetContext(ctx, &users, query)
+		err = u.db.GetMaster().SelectContext(ctx, &users, query)
 	}
 
 	if err != nil {

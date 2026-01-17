@@ -1,0 +1,181 @@
+basePath: /
+definitions:
+  controller.errorResponse:
+    properties:
+      error_code:
+        type: integer
+      error_message:
+        type: string
+    type: object
+  controller.jsonResponse:
+    properties:
+      code:
+        type: integer
+      data: {}
+      error:
+        $ref: '#/definitions/controller.errorResponse'
+      message:
+        type: string
+    type: object
+  request.UserRegistrationRequest:
+    properties:
+      username:
+        type: string
+    type: object
+  request.UserUpdateRequest:
+    properties:
+      id:
+        type: string
+      username:
+        type: string
+    type: object
+  response.UserResponse:
+    properties:
+      id:
+        type: string
+      username:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: Garnet Scaff
+  title: Garnet Scaff
+  version: 1.0.0
+paths:
+  /health:
+    get:
+      consumes:
+      - application/json
+      description: Ping to check health
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controller.jsonResponse'
+      summary: Ping
+      tags:
+      - Health
+  /v1/users:
+    get:
+      consumes:
+      - application/json
+      description: GetAllUsers to get all user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/controller.jsonResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.UserResponse'
+              type: object
+      summary: GetAllUsers
+      tags:
+      - user
+    patch:
+      consumes:
+      - application/json
+      description: UpdateUser to update a user
+      parameters:
+      - description: Update User payload
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/request.UserUpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/controller.jsonResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.UserResponse'
+              type: object
+      summary: UpdateUser
+      tags:
+      - user
+    post:
+      consumes:
+      - application/json
+      description: CreateUser to create a user
+      parameters:
+      - description: Create User payload
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/request.UserRegistrationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/controller.jsonResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.UserResponse'
+              type: object
+      summary: CreateUser
+      tags:
+      - user
+  /v1/users/{userId}:
+    delete:
+      consumes:
+      - application/json
+      description: DeleteUser to delete a user
+      parameters:
+      - description: user id
+        in: path
+        name: userId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/controller.jsonResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.UserResponse'
+              type: object
+      summary: DeleteUser
+      tags:
+      - user
+    get:
+      consumes:
+      - application/json
+      description: GetUser to get a user
+      parameters:
+      - description: user id
+        in: path
+        name: userId
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/controller.jsonResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/response.UserResponse'
+              type: object
+      summary: GetUser
+      tags:
+      - user
+swagger: "2.0"

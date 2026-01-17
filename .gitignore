@@ -1,0 +1,94 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin/
+dist/
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+coverage.txt
+coverage.html
+
+# Dependency directories
+vendor/
+
+# Go workspace file
+go.work
+go.work.sum
+
+# Build artifacts
+build/
+*.log
+
+# GoLand / JetBrains IDE
+.idea/
+*.iml
+*.iws
+*.ipr
+.idea_modules/
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Environment files
+.env
+.env.local
+.env.*.local
+*.env
+
+# Configuration files (uncomment if you want to ignore)
+# config.yaml
+# config.yml
+# config.*.yaml
+# config.*.yml
+
+# Local configuration overrides
+config.local.yaml
+config.local.yml
+*-local.yaml
+*-local.yml
+
+# Claude related files
+.claude/
+.claude_history
+*.claude
+
+# Temporary files
+*.tmp
+*.swp
+*.swo
+*~
+.#*
+
+# Debug files
+debug
+__debug_bin
+
+# Air live reload
+tmp/
+.air.toml
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+logs/
+*.log
+
+# IDE specific
+.vscode/
+.fleet/

@@ -93,12 +93,12 @@ func (api *API) CreateUser(ctx context.Context, req *router.Request) (*rest.JSON
 		return custresp.CustomErrorResponse(err)
 	}
 
-	res, err := api.userUc.RegisterUser(ctx, &userReq)
+	_, err = api.userUc.RegisterUser(ctx, &userReq)
 	if err != nil {
 		return custresp.CustomErrorResponse(err)
 	}
 
-	return rest.NewJSONResponse().SetData(res), nil
+	return rest.NewJSONResponse().SetMessage("User Created"), nil
 }
 
 // UpdateUser godoc
@@ -125,7 +125,7 @@ func (api *API) UpdateUser(ctx context.Context, req *router.Request) (*rest.JSON
 		return custresp.CustomErrorResponse(err)
 	}
 
-	return rest.NewJSONResponse().SetData(res), nil
+	return rest.NewJSONResponse().SetData(res).SetMessage("User Update Successfully"), nil
 }
 
 // DeleteUser godoc
@@ -136,7 +136,7 @@ func (api *API) UpdateUser(ctx context.Context, req *router.Request) (*rest.JSON
 // @Produce json
 // @Param 		userId 					path 		string 	false	"user id"
 // @Success 200	{object}	jsonResponse{data=response.UserResponse}
-// @Router /v1/users [delete]
+// @Router /v1/users/{userId} [delete]
 func (api *API) DeleteUser(ctx context.Context, req *router.Request) (*rest.JSONResponse, error) {
 	span, ctx := tracing.StartSpanFromContext(ctx, "Controller.DeleteUser")
 	defer span.End()
@@ -166,5 +166,5 @@ func (api *API) DeleteUser(ctx context.Context, req *router.Request) (*rest.JSON
 		return custresp.CustomErrorResponse(err)
 	}
 
-	return rest.NewJSONResponse(), nil
+	return rest.NewJSONResponse().SetMessage("Delete User Succefully"), nil
 }

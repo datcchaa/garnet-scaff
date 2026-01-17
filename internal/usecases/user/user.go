@@ -76,21 +76,23 @@ func (m *Module) UpdateUser(ctx context.Context, req *request.UserUpdateRequest)
 		existing *model.User
 	)
 
-	transaction := func(txCtx context.Context) (any, error) {
-		id, err := uuid.Parse(req.ID)
-		if err != nil {
-			log.WithFields(log.Fields{
-				"error": err,
-				"id":    req.ID,
-			}).ErrorWithCtx(txCtx, "[UserUseCases.UpdateUser] failed to parse id")
-			return nil, &custerr.ErrChain{
-				Message: "failed to parse id",
-				Code:    500,
-				Type:    response2.ErrInternalServerError,
-				Cause:   err,
-			}
+	id, err := uuid.Parse(req.ID)
+	if err != nil {
+		log.WithFields(log.Fields{
+			"error": err,
+			"id":    req.ID,
+		}).ErrorWithCtx(ctx, "[UserUseCases.UpdateUser] failed to parse id")
+		return nil, &custerr.ErrChain{
+			Message: "failed to parse id",
+			Code:    500,
+			Type:    response2.ErrInternalServerError,
+			Cause:   err,
 		}
-		existing, errTx := m.userRepo.FindByID(ctx, id)
+	}
+
+	transaction := func(txCtx context.Context) (any, error) {
+		var errTx error
+		existing, errTx = m.userRepo.FindByID(ctx, id)
 		if errTx != nil {
 			log.WithFields(log.Fields{
 				"error": errTx,
@@ -105,7 +107,6 @@ func (m *Module) UpdateUser(ctx context.Context, req *request.UserUpdateRequest)
 		}
 
 		existing.Username = req.Username
-
 		errTx = m.userRepo.Update(ctx, existing)
 		if errTx != nil {
 			if errors.Is(errTx, dao.ErrNoUpdateHappened) {
@@ -130,7 +131,7 @@ func (m *Module) UpdateUser(ctx context.Context, req *request.UserUpdateRequest)
 		return nil, nil
 	}
 
-	_, err := m.txMgr.Execute(ctx, transaction, nil)
+	_, err = m.txMgr.Execute(ctx, transaction, nil)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"error": err,
@@ -154,30 +155,31 @@ func (m *Module) SoftDeleteUser(ctx context.Context, id uuid.UUID) error {
 	)
 
 	transaction := func(txCtx context.Context) (any, error) {
-		existing, err := m.userRepo.FindByID(ctx, id)
-		if err != nil {
+		var errTx error
+		existing, errTx = m.userRepo.FindByID(ctx, id)
+		if errTx != nil {
 			log.WithFields(log.Fields{
-				"error": err,
+				"error": errTx,
 				"id":    id,
 			}).ErrorWithCtx(txCtx, "[UserUseCases.SoftDeleteUser] failed to find user")
 			return nil, &custerr.ErrChain{
 				Message: "failed to find user",
 				Code:    500,
 				Type:    response2.ErrInternalServerError,
-				Cause:   err,
+				Cause:   errTx,
 			}
 		}
 
 		existing.Username = ""
 
-		errTx := m.userRepo.Delete(ctx, existing)
+		errTx = m.userRepo.Delete(ctx, existing)
 		if errTx != nil {
 			if errors.Is(errTx, dao.ErrNoUpdateHappened) {
 				return nil, &custerr.ErrChain{
 					Message: "failed to delete user",
 					Code:    500,
 					Type:    response2.ErrInternalServerError,
-					Cause:   err,
+					Cause:   errTx,
 				}
 			}
 			log.WithFields(log.Fields{
@@ -201,17 +203,15 @@ func (m *Module) SoftDeleteUser(ctx context.Context, id uuid.UUID) error {
 			"error": err,
 			"user":  existing,
 		}).ErrorWithCtx(ctx, "[UserUseCases.SoftDeleteUser] failed to execute transaction")
-		return nil, err
+		return err
 	}
 
-	return nil, nil
+	return nil
 }
 
 func (m *Module) GetAllUsers(ctx context.Context) (*[]response.UserResponse, error) {
 	span, ctx := tracing.StartSpanFromContext(ctx, "UserUseCases.GetAllUsers")
 	defer span.End()
-
-	var userResponse []response.UserResponse
 
 	users, err := m.userRepo.GetAll(ctx)
 	if err != nil {
@@ -226,6 +226,7 @@ func (m *Module) GetAllUsers(ctx context.Context) (*[]response.UserResponse, err
 		}
 	}
 
+	var userResponse []response.UserResponse
 	for _, user := range users {
 		userResp := response.UserResponse{
 			ID:       user.ID.String(),

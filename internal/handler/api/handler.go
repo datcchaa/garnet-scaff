@@ -2,6 +2,7 @@ package api
 
 import (
 	"garnet-scaff/config"
+	"garnet-scaff/internal/handler/api/controller"
 	"garnet-scaff/internal/usecases"
 
 	"github.com/nocturna-ta/golib/log"
@@ -23,8 +24,15 @@ func New(opts *Options) *Handler {
 	handler := &Handler{
 		opts: opts,
 	}
-
-	handler.myRouter = nil
+	handler.myRouter = controller.New(&controller.Options{
+		Prefix:         opts.Cfg.API.BasePath,
+		Port:           opts.Cfg.Server.Port,
+		ReadTimeout:    opts.Cfg.Server.ReadTimeout,
+		WriteTimeout:   opts.Cfg.Server.WriteTimeout,
+		RequestTimeout: opts.Cfg.Server.ReadTimeout,
+		EnableSwagger:  opts.Cfg.API.EnableSwagger,
+		UserUc:         opts.UserUc,
+	}).RegisterRoute()
 
 	return handler
 }
