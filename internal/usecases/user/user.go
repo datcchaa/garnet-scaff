@@ -65,7 +65,11 @@ func (m *Module) RegisterUser(ctx context.Context, req *request.UserRegistration
 		}).ErrorWithCtx(ctx, "[UserUseCases.RegisterUser] failed to insert user")
 		return nil, err
 	}
-	return nil, nil
+
+	return &response.UserResponse{
+		ID:       user.ID.String(),
+		Username: user.Username,
+	}, nil
 }
 
 func (m *Module) UpdateUser(ctx context.Context, req *request.UserUpdateRequest) (*response.UserResponse, error) {
@@ -209,7 +213,7 @@ func (m *Module) SoftDeleteUser(ctx context.Context, id uuid.UUID) error {
 	return nil
 }
 
-func (m *Module) GetAllUsers(ctx context.Context) (*[]response.UserResponse, error) {
+func (m *Module) GetAllUsers(ctx context.Context) ([]*response.UserResponse, error) {
 	span, ctx := tracing.StartSpanFromContext(ctx, "UserUseCases.GetAllUsers")
 	defer span.End()
 
@@ -226,15 +230,15 @@ func (m *Module) GetAllUsers(ctx context.Context) (*[]response.UserResponse, err
 		}
 	}
 
-	var userResponse []response.UserResponse
+	var userResponse []*response.UserResponse
 	for _, user := range users {
 		userResp := response.UserResponse{
 			ID:       user.ID.String(),
 			Username: user.Username,
 		}
 
-		userResponse = append(userResponse, userResp)
+		userResponse = append(userResponse, &userResp)
 	}
 
-	return &userResponse, nil
+	return userResponse, nil
 }

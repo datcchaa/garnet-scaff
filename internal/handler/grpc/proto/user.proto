@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "garnet-scaff/internal/handler/grpc/proto";
+
+service UserService {
+  rpc GetAllUsers(GetAllUsersRequest) returns (GetAllUsersResponse);
+  rpc GetUserByID(GetUserByIDRequest) returns (UserResponse);
+  rpc RegisterUser(RegisterUserRequest) returns (UserResponse);
+  rpc UpdateUser(UpdateUserRequest) returns (UserResponse);
+  rpc SoftDeleteUser(SoftDeleteUserRequest) returns (SoftDeleteUserResponse);
+}
+
+message UserResponse {
+  string id = 1;
+  string username = 2;
+}
+
+message GetAllUsersRequest {}
+
+message GetAllUsersResponse {
+  repeated UserResponse users = 1;
+}
+
+message GetUserByIDRequest {
+  string id = 1;
+}
+
+message RegisterUserRequest {
+  string username = 1;
+}
+
+message UpdateUserRequest {
+  string id = 1;
+  string username = 2;
+}
+
+message SoftDeleteUserRequest {
+  string id = 1;
+}
+
+message SoftDeleteUserResponse {}

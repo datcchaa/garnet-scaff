@@ -14,12 +14,17 @@ type (
 		Database   DBConfig         `yaml:"Database"`
 		Encryption EncryptionConfig `yaml:"Encryption"`
 		Cors       CorsConfig       `yaml:"Cors"`
+		GrpcServer GrpcConfig       `yaml:"GrpcServer"`
 	}
 
 	ServerConfig struct {
 		Port         uint          `yaml:"Port" env:"SERVER_PORT"`
 		WriteTimeout time.Duration `yaml:"WriteTimeout" env:"SERVER_WRITE_TIMEOUT"`
 		ReadTimeout  time.Duration `yaml:"ReadTimeout" env:"SERVER_READ_TIMEOUT"`
+	}
+
+	GrpcConfig struct {
+		Port uint `yaml:"Port" env:"GRPC_PORT"`
 	}
 
 	APIConfig struct {

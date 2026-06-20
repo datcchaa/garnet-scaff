@@ -44,3 +44,6 @@ Cors:
   AllowCredentials: false
   ExposeHeaders: "X-Custom-Header"
   MaxAge: 3600
+
+GrpcServer:
+  Port: 35000

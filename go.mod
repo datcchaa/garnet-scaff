@@ -3,12 +3,17 @@ module garnet-scaff
 go 1.24.0
 
 require (
+	github.com/gofiber/fiber/v2 v2.52.10
 	github.com/gofiber/swagger v1.1.1
 	github.com/google/uuid v1.6.0
+	github.com/grpc-ecosystem/grpc-gateway/v2 v2.22.0
 	github.com/lib/pq v1.10.9
 	github.com/nocturna-ta/golib v1.3.6
 	github.com/spf13/cobra v1.10.2
 	github.com/swaggo/swag v1.16.6
+	google.golang.org/genproto/googleapis/api v0.0.0-20240814211410-ddb44dafa142
+	google.golang.org/grpc v1.67.1
+	google.golang.org/protobuf v1.34.2
 )
 
 require (
@@ -21,6 +26,7 @@ require (
 	github.com/avast/retry-go/v4 v4.6.0 // indirect
 	github.com/clipperhouse/stringish v0.1.1 // indirect
 	github.com/clipperhouse/uax29/v2 v2.3.0 // indirect
+	github.com/dlclark/regexp2 v1.12.0 // indirect
 	github.com/getsentry/sentry-go v0.27.0 // indirect
 	github.com/go-faster/city v1.0.1 // indirect
 	github.com/go-faster/errors v0.7.1 // indirect
@@ -35,15 +41,17 @@ require (
 	github.com/go-openapi/swag/typeutils v0.25.4 // indirect
 	github.com/go-openapi/swag/yamlutils v0.25.4 // indirect
 	github.com/go-sql-driver/mysql v1.8.1 // indirect
-	github.com/gofiber/fiber/v2 v2.52.10 // indirect
+	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/jinzhu/configor v1.2.2 // indirect
 	github.com/jmoiron/sqlx v1.4.0 // indirect
+	github.com/k2io/hookingo v1.0.6 // indirect
 	github.com/klauspost/compress v1.18.3 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mattn/go-runewidth v0.0.19 // indirect
 	github.com/newrelic/go-agent/v3 v3.35.0 // indirect
+	github.com/newrelic/go-agent/v3/integrations/nrgrpc v1.4.4 // indirect
 	github.com/newrelic/go-agent/v3/integrations/nrmysql v1.2.2 // indirect
 	github.com/paulmach/orb v0.11.1 // indirect
 	github.com/pierrec/lz4/v4 v4.1.22 // indirect
@@ -64,8 +72,6 @@ require (
 	golang.org/x/text v0.33.0 // indirect
 	golang.org/x/tools v0.41.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240814211410-ddb44dafa142 // indirect
-	google.golang.org/grpc v1.67.1 // indirect
-	google.golang.org/protobuf v1.34.2 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

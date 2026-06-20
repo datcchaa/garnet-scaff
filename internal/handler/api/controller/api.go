@@ -3,9 +3,10 @@ package controller
 import (
 	_ "garnet-scaff/docs"
 	"garnet-scaff/internal/usecases"
+	"time"
+
 	"github.com/gofiber/swagger"
 	"github.com/nocturna-ta/golib/router"
-	"time"
 )
 
 type API struct {
