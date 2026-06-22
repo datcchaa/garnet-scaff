@@ -32,3 +32,18 @@ proto-gen:
 	@protoc --go_out=. --go_opt=paths=source_relative \
 		--go-grpc_out=. --go-grpc_opt=paths=source_relative \
 		internal/handler/grpc/proto/user.proto
+
+
+remock:
+	#https://github.com/vektra/mockery
+	@echo ">> Mock Repositories"
+	@mockery --all --dir ./internal/domain/repository --output ./internal/domain/repository/mocks_repository --outpkg mocks_repository
+
+	@echo ">> Mock UseCases"
+	@mockery --all --dir ./internal/usecases --output ./internal/usecases/mocks_usecases --outpkg mocks_usecases
+
+	@echo ">> Mock Interfaces"
+	@mockery --all --recursive --dir ./internal/interfaces --output ./internal/interfaces/mocks_interfaces --outpkg mocks_interfaces
+
+	@echo ">> Mock Infra"
+	@mockery --all --recursive --dir ./internal/infrastructures --output ./internal/infrastructures/mocks_infrastructures --outpkg mocks_infrastructures

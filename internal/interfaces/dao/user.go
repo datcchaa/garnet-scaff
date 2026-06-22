@@ -115,7 +115,7 @@ func (repo *UserRepository) Update(ctx context.Context, user *model.User) error 
 	return nil
 }
 
-func (u *UserRepository) Delete(ctx context.Context, user *model.User) error {
+func (repo *UserRepository) Delete(ctx context.Context, user *model.User) error {
 	span, ctx := tracing.StartSpanFromContext(ctx, "UserRepository.Delete")
 	defer span.End()
 
@@ -135,7 +135,7 @@ func (u *UserRepository) Delete(ctx context.Context, user *model.User) error {
 	if sqlTrx != nil {
 		_, err = sqlTrx.ExecContext(ctx, query, args...)
 	} else {
-		_, err = u.db.GetMaster().ExecContext(ctx, query, args...)
+		_, err = repo.db.GetMaster().ExecContext(ctx, query, args...)
 	}
 
 	if err != nil {
@@ -149,7 +149,7 @@ func (u *UserRepository) Delete(ctx context.Context, user *model.User) error {
 	return nil
 }
 
-func (u *UserRepository) FindByID(ctx context.Context, id uuid.UUID) (*model.User, error) {
+func (repo *UserRepository) FindByID(ctx context.Context, id uuid.UUID) (*model.User, error) {
 	span, ctx := tracing.StartSpanFromContext(ctx, "UserRepository.FindByID")
 	defer span.End()
 
@@ -171,7 +171,7 @@ func (u *UserRepository) FindByID(ctx context.Context, id uuid.UUID) (*model.Use
 	if sqlTrx != nil {
 		err = sqlTrx.GetContext(ctx, &user, query, args...)
 	} else {
-		err = u.db.GetMaster().GetContext(ctx, &user, query, args...)
+		err = repo.db.GetMaster().GetContext(ctx, &user, query, args...)
 	}
 
 	if err != nil {
@@ -188,7 +188,7 @@ func (u *UserRepository) FindByID(ctx context.Context, id uuid.UUID) (*model.Use
 	return &user, nil
 }
 
-func (u *UserRepository) GetAll(ctx context.Context) ([]*model.User, error) {
+func (repo *UserRepository) GetAll(ctx context.Context) ([]*model.User, error) {
 	span, ctx := tracing.StartSpanFromContext(ctx, "UserRepository.GetAll")
 	defer span.End()
 
@@ -205,7 +205,7 @@ func (u *UserRepository) GetAll(ctx context.Context) ([]*model.User, error) {
 	if sqlTrx != nil {
 		err = sqlTrx.SelectContext(ctx, &users, query)
 	} else {
-		err = u.db.GetMaster().SelectContext(ctx, &users, query)
+		err = repo.db.GetMaster().SelectContext(ctx, &users, query)
 	}
 
 	if err != nil {
